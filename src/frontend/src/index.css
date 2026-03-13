@@ -1,0 +1,169 @@
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("/assets/fonts/BricolageGrotesque.woff2") format("woff2");
+  font-weight: 200 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/assets/fonts/JetBrainsMono.woff2") format("woff2");
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Dark-first medical monitor palette */
+    --background: 0.12 0.008 260;
+    --foreground: 0.94 0.01 260;
+
+    --card: 0.16 0.01 260;
+    --card-foreground: 0.94 0.01 260;
+
+    --popover: 0.16 0.01 260;
+    --popover-foreground: 0.94 0.01 260;
+
+    /* Vivid crimson for pulse/heart */
+    --primary: 0.62 0.22 18;
+    --primary-foreground: 0.98 0.005 260;
+
+    --secondary: 0.22 0.015 260;
+    --secondary-foreground: 0.8 0.01 260;
+
+    --muted: 0.2 0.012 260;
+    --muted-foreground: 0.55 0.015 260;
+
+    --accent: 0.25 0.02 260;
+    --accent-foreground: 0.94 0.01 260;
+
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 0.98 0.005 260;
+
+    --border: 0.22 0.015 260;
+    --input: 0.22 0.015 260;
+    --ring: 0.62 0.22 18;
+
+    /* Status colors */
+    --success: 0.62 0.18 145;
+    --success-foreground: 0.12 0.008 260;
+    --danger: 0.58 0.2 25;
+    --danger-foreground: 0.98 0.005 260;
+
+    --chart-1: 0.62 0.22 18;
+    --chart-2: 0.62 0.18 145;
+    --chart-3: 0.65 0.18 240;
+    --chart-4: 0.65 0.2 55;
+    --chart-5: 0.6 0.2 300;
+
+    --sidebar: 0.14 0.01 260;
+    --sidebar-foreground: 0.94 0.01 260;
+    --sidebar-primary: 0.62 0.22 18;
+    --sidebar-primary-foreground: 0.98 0.005 260;
+    --sidebar-accent: 0.2 0.012 260;
+    --sidebar-accent-foreground: 0.94 0.01 260;
+    --sidebar-border: 0.22 0.015 260;
+    --sidebar-ring: 0.62 0.22 18;
+
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: "Bricolage Grotesque", sans-serif;
+  }
+  .font-body {
+    font-family: "Bricolage Grotesque", sans-serif;
+  }
+  .font-mono {
+    font-family: "JetBrains Mono", monospace;
+  }
+}
+
+/* Heartbeat pulse animation */
+@keyframes heartbeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.15);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.08);
+  }
+  56% {
+    transform: scale(1);
+  }
+}
+
+@keyframes bpm-glow {
+  0%,
+  100% {
+    text-shadow: 0 0 20px oklch(0.62 0.22 18 / 0.4), 0 0 60px
+      oklch(0.62 0.22 18 / 0.2);
+  }
+  50% {
+    text-shadow: 0 0 40px oklch(0.62 0.22 18 / 0.8), 0 0 100px
+      oklch(0.62 0.22 18 / 0.4);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+@keyframes scan-line {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(400%);
+  }
+}
+
+.heartbeat-icon {
+  animation: heartbeat 0.85s ease-in-out infinite;
+}
+
+.bpm-glow {
+  animation: bpm-glow 1s ease-in-out infinite;
+}
+
+.pulse-ring {
+  animation: pulse-ring 1.5s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
+}
+
+.pulse-ring-2 {
+  animation: pulse-ring 1.5s cubic-bezier(0.2, 0.6, 0.4, 1) 0.5s infinite;
+}
