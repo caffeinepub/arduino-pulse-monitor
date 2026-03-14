@@ -1,35 +1,35 @@
-# Arduino Pulse Rate Monitor
+# FitLife Tracker
 
 ## Current State
-New project. No existing code.
+A web-based Arduino pulse monitor (PulseMonitor) with:
+- Web Bluetooth connection (NUS service)
+- Real-time BPM display with count-up animation, heartbeat icon, pulse rings
+- Health alerts for abnormal BPM (<50 or >120)
+- Heart Health Exercises accordion section
+- GPU-accelerated CSS animations, crimson/blue background
 
 ## Requested Changes (Diff)
 
 ### Add
-- Web Bluetooth API integration to connect to HC-05/HC-06 Arduino Bluetooth module
-- Real-time BPM display from Arduino pulse sensor data
-- Bluetooth status indicator (Connected / Not Connected)
-- Sensor status indicator (Connected / Not Connected)
-- "Connect Bluetooth" button that triggers device scan/pairing
-- State: if BT not connected, show "Connect to Bluetooth Module"
-- State: if BT connected but no sensor data, show "Pulse Sensor Not Connected"
-- State: if sensor data received, display real BPM value
-- Serial data parser to read BPM lines sent from Arduino over BT serial (Nordic UART Service or SPP)
-- Auto-reconnect / continuous polling of incoming serial data
+- Rename app from "PulseMonitor" to "FitLife Tracker"
+- Bluetooth device scanning list: show nearby discovered devices before connecting; user taps a device to connect
+- Auto-reconnect logic: if device disconnects unexpectedly, attempt automatic reconnection up to 3 times
+- Pulse history graph: show last 30 BPM readings as a sparkline/line chart below the BPM display
+- Health alert threshold update: warn below 60 BPM (currently 50) or above 120 BPM
+- Breathing/yoga suggestion card when abnormal pulse detected (in addition to toast)
 
 ### Modify
-N/A
+- Connect flow: clicking "Scan Bluetooth Devices" opens a dialog/sheet listing discovered devices; user selects HC-05 from list to connect
+- Header branding: "FitLife Tracker" with a fitness icon
+- ALERT_LOW threshold: change from 50 to 60
 
 ### Remove
-N/A
+- Nothing removed
 
 ## Implementation Plan
-1. Backend: minimal stub (no backend logic needed for this app)
-2. Frontend:
-   - Connect to Bluetooth using Web Bluetooth API (Nordic UART Service UUID for serial-over-BLE)
-   - Parse incoming serial lines for BPM integer values
-   - Display BPM in large text, or status messages based on connection/sensor state
-   - Bluetooth + Sensor status badges
-   - Connect button that opens browser BT device picker
-   - Disconnect button when connected
-   - No fake/simulated data -- only display values received from device
+1. Update app name/branding to FitLife Tracker throughout
+2. Change ALERT_LOW from 50 to 60
+3. Add device scan dialog: use requestDevice with acceptAllDevices, show device picker as a custom list UI (simulate by using the browser native picker — Web Bluetooth API does not allow custom device lists in the browser; note this to user)
+4. Add auto-reconnect: on gattserverdisconnected, try reconnect up to 3 times with 2s delay before calling handleDisconnect
+5. Add BPM history state (last 30 readings) and render as a simple SVG sparkline chart below BPM display
+6. Add inline breathing/yoga suggestion card that appears when BPM is abnormal (below 60 or above 120)

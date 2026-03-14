@@ -100,7 +100,82 @@
   }
 }
 
-/* Enhanced heartbeat pulse animation — more dramatic double-beat */
+/* ═══════════════════════════════════════════
+   BACKGROUND LAYERS
+   All position:fixed so they cover the full
+   viewport even when content scrolls.
+═══════════════════════════════════════════ */
+
+/* Layer 1 — crimson ambient glow, top-center */
+.bg-blob-crimson {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse 70% 50% at 50% -5%,
+    oklch(0.62 0.22 18 / 0.22) 0%,
+    oklch(0.62 0.22 18 / 0.06) 55%,
+    transparent 80%
+  );
+}
+
+/* Layer 2 — cool blue glow, bottom */
+.bg-blob-blue {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse 60% 40% at 50% 110%,
+    oklch(0.55 0.18 240 / 0.18) 0%,
+    oklch(0.55 0.18 240 / 0.05) 55%,
+    transparent 80%
+  );
+}
+
+/* Layer 3 — fine grid */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: linear-gradient(
+      oklch(0.28 0.018 260 / 0.45) 1px,
+      transparent 1px
+    ), linear-gradient(90deg, oklch(0.28 0.018 260 / 0.45) 1px, transparent 1px);
+  background-size: 40px 40px;
+  /* fade grid lines toward the center so blobs show through */
+  -webkit-mask-image: radial-gradient(
+    ellipse 90% 80% at 50% 50%,
+    black 30%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 90% 80% at 50% 50%,
+    black 30%,
+    transparent 100%
+  );
+}
+
+/* Layer 4 — vignette: darkens edges, keeps center bright */
+.bg-vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse 85% 75% at 50% 40%,
+    transparent 40%,
+    oklch(0.08 0.005 260 / 0.55) 100%
+  );
+}
+
+/* ═══════════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════════ */
+
+/* ── Heartbeat double-beat ── */
 @keyframes heartbeat {
   0%,
   100% {
@@ -120,6 +195,7 @@
   }
 }
 
+/* ── BPM glow pulse ── */
 @keyframes bpm-glow {
   0%,
   100% {
@@ -132,6 +208,7 @@
   }
 }
 
+/* ── Expanding pulse ring ── */
 @keyframes pulse-ring {
   0% {
     transform: scale(0.8);
@@ -143,6 +220,7 @@
   }
 }
 
+/* ── Shake on connect error ── */
 @keyframes shake {
   0%,
   100% {
@@ -168,22 +246,61 @@
   }
 }
 
+/* ── Fade in (state panel transitions) ── */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Fade in up (exercises section) ── */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Slow spin for connecting Bluetooth icon ── */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .heartbeat-icon {
   animation: heartbeat 0.9s ease-in-out infinite;
 }
-
 .bpm-glow {
   animation: bpm-glow 1s ease-in-out infinite;
 }
-
 .pulse-ring {
   animation: pulse-ring 1.5s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
 }
-
 .pulse-ring-2 {
   animation: pulse-ring 1.5s cubic-bezier(0.2, 0.6, 0.4, 1) 0.5s infinite;
 }
-
 .connect-shake {
   animation: shake 0.6s ease-in-out;
+}
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out both;
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out 0.1s both;
+}
+.animate-spin-slow {
+  animation: spin-slow 2s linear infinite;
 }
